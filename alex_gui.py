@@ -6,7 +6,6 @@ import wikipedia
 import datetime
 import keyboard
 import colors
-import os
 from tkinter import *
 from PIL import Image, ImageTk
 from pygame import mixer
@@ -14,7 +13,46 @@ import threading as tr
 import whats as wp
 import dibujar as draw
 
-# Interfaz ventana raiz imagen, botones, texto#
+# Interfaz ventana import json
+import os
+# -----------------------------------
+# Gestión del nombre del usuario
+# -----------------------------------
+
+CONFIG_FILE = "config.json"
+
+def load_user_config():
+    if not os.path.exists(CONFIG_FILE):
+        return {}
+
+    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return {}
+
+def save_user_config(data):
+    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+def get_user_name():
+    config = load_user_config()
+
+    # Si ya existe un nombre guardado, usarlo
+    if "user_name" in config and config["user_name"].strip() != "":
+        return config["user_name"]
+
+    # Si no existe, pedirlo y guardarlo
+    print("¡Hola! No tengo registrado tu nombre.")
+    user_name = input("¿Cómo te llamás?: ").strip()
+
+    config["user_name"] = user_name
+    save_user_config(config)
+
+    return user_name
+
+        
+raiz imagen, botones, texto#
 main_window = Tk()
 main_window.title("Alex AI")
 
@@ -414,44 +452,65 @@ def save_data(key, value, file_name):
         file = open(file_name, 'a')
         file.write(key + "," + value + "\n")
 
-def add_files(): #guardar en los diccionarios
-    name_file = namefile_entry.get().strip()
-    path_file = pathf_entry.get().strip()
-    
-    files[name_file] = path_file
-    save_data(name_file, path_file, "archivos.txt")
-    namefile_entry.delete(0, "end") #borre de inicio a fin la cajita de texto
-    pathf_entry.delete(0, "end")
-def add_apps():
-    name_file = nameapp_entry.get().strip()
-    path_file = patha_entry.get().strip()
-    
-    programs[name_file] = path_file
-    save_data(name_file, path_file, "apps.txt")
-    nameapp_entry.delete(0, "end") #borre de inicio a fin la cajita de texto
-    patha_entry.delete(0, "end")
-def add_pages():
-    name_page = namepages_entry.get().strip()
-    url_pages = pathp_entry.get().strip()
-    
-    sites[name_page] = url_pages
-    save_data(name_page, url_pages, "paginas.txt")
-    namepages_entry.delete(0, "end") #borre de inicio a fin la cajita de texto
-    pathp_entry.delete(0, "end")
 
+def add_files():
+    file_name = filename_entry.get().strip()
+    file_path = filepath_entry.get().strip()
+    files[file_name] = file_path
+    save_data(file_name, file_path, "files.txt")
+    filename_entry.delete(0, "end")
+    filepath_entry.delete(0, "end")
+
+def add_apps():
+    app_name = appname_entry.get().strip()
+    app_path = apppath_entry.get().strip()
+    apps[app_name] = app_path
+    save_data(app_name, app_path, "apps.txt")
+    appname_entry.delete(0, "end")
+    apppath_entry.delete(0, "end")
+
+def add_pages():
+    page_name = pagename_entry.get().strip()
+    page_url = pageurl_entry.get().strip()
+    pages[page_name] = page_url
+    save_data(page_name, page_url, "pages.txt")
+    pagename_entry.delete(0, "end")
+    pageurl_entry.delete(0, "end")
+
+# -------------------------
+# ⭐ NUEVA FUNCIÓN AGREGADA
+# -------------------------
 def add_contacts():
     name_contact = namecontact_entry.get().strip()
     phone_contact = phonecontact_entry.get().strip()
-
     contacts[name_contact] = phone_contact
     save_data(name_contact, phone_contact, "contacts.txt")
     namecontact_entry.delete(0, "end")
     phonecontact_entry.delete(0, "end")
+# -------------------------
+
+###################################################################
+# DESPUÉS DE ESTO VIENEN LOS BOTONES QUE YA TENÍAS EN TU CÓDIGO
+###################################################################
+
+files_button = tk.Button(window, text="Agregar archivo", command=add_files)
+files_button.pack(pady=5)
+
+apps_button = tk.Button(window, text="Agregar aplicación", command=add_apps)
+apps_button.pack(pady=5)
+
+pages_button = tk.Button(window, text="Agregar página", command=add_pages)
+pages_button.pack(pady=5)
+
+# 🔥 y ahora sí, tu botón de contactos:
+contacts_button = tk.Button(window, text="Agregar contacto", command=add_contacts)
+contacts_button.pack(pady=5)
 
 #Leer BOTONES
 def talk_pages():
     if bool(sites) == True:
         talk("Has agregado las siguientes páginas web")
+            
         for site in sites:
             talk(site)
     else:
