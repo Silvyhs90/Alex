@@ -1,0 +1,11 @@
+SpeechRecognition
+PyAudio
+pillow
+wikipedia
+pywhatkit
+keyboard
+pygame-ce
+opencv-python
+numpy
+pyttsx3
+pyautogui

@@ -1,0 +1,9 @@
+boffe,https://www.kick.com
+disney,https://www.disneyplus.com
+google,https://www.google.com
+hbo,https://www.hbomax.com
+kick,https://www.kick.com
+prueba,https://www.kick.com
+stream,https://www.twitch.com
+test,https://www.kick.com
+wikipedia,https://www.wikipedia.com
