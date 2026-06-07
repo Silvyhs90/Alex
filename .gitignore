@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+*.egg
+*.whl
+.env
+venv/
+.venv/
+ENV/
+env/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+# OS files
+.DS_Store
+Thumbs.db
+# IDE
+.vscode/
+.idea/
+# Virtual envs
+.venv/
+# Logs
+*.log
+# Byte-compiled
+*.so
+
+# secrets
+secrets.json
+
+# Optional: exclude large data
+data/
+
+# Ignore node modules if any
+node_modules/
