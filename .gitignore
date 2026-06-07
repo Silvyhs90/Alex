@@ -38,3 +38,4 @@ data/
 
 # Ignore node modules if any
 node_modules/
+\n.venv/
